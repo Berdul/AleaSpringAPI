@@ -3,6 +3,7 @@ package org.ifa.fbansept.Alea.model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -11,9 +12,19 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private int countPlayer;
+    private String gameType;
+    //@OneToMany( mappedBy = "game")
+    //private List<Player> player;
 
     public Game() {
+    }
+
+    public String getGameType() {
+        return gameType;
+    }
+
+    public void setGameType(String gameType) {
+        this.gameType = gameType;
     }
 
     public Integer getId() {
@@ -22,13 +33,5 @@ public class Game {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getCountPlayer() {
-        return countPlayer;
-    }
-
-    public void setCountPlayer(int countPlayer) {
-        this.countPlayer = countPlayer;
     }
 }

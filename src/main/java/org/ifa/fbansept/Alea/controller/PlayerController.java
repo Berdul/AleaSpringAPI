@@ -17,21 +17,21 @@ public class PlayerController {
         this.playerDAO = playerDAO;
     }
 
-    @GetMapping("/listeUtilisateur/{id}")
+    @GetMapping("/listPlayer/{id}")
     public Player singleUtilisateur(@PathVariable int id){
         System.out.println("Single utilisateur");
         return playerDAO.findById(id).orElse(null);
 
     }
 
-    @GetMapping({"/listeUtilisateur"})
+    @GetMapping({"/listPlayer"})
     public List<Player> listUtilisateur(){
         System.out.println("Liste des utilisateurs");
         return playerDAO.findAll();
     }
 
 
-    @PostMapping({"/listeUtilisateur"})
+    @PostMapping({"/listPlayer"})
     Player addUser(@RequestBody Player player) {
         System.out.println("ECHO");
         return playerDAO.save(player);

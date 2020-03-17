@@ -1,4 +1,4 @@
-package com.zerotoproduction.bucketlist;
+package org.ifa.fbansept.Alea.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

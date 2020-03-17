@@ -17,6 +17,12 @@ public class PlayerController {
         this.playerDAO = playerDAO;
     }
 
+    @GetMapping("/")
+    public String homepage(@PathVariable int id){
+        return "HOMEPAGE: Welcome to Alea API !";
+
+    }
+
     @GetMapping("/listPlayer/{id}")
     public Player singleUtilisateur(@PathVariable int id){
         System.out.println("Single utilisateur");

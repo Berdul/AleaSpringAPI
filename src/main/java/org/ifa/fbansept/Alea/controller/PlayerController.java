@@ -32,7 +32,7 @@ public class PlayerController {
 
     @GetMapping({"/listPlayer"})
     public List<Player> listUtilisateur(){
-        System.out.println("Liste des utilisateurs");
+        System.out.println("Player list");
         return playerDAO.findAll();
     }
 

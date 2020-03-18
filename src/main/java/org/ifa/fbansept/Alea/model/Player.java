@@ -15,6 +15,9 @@ public class Player {
     private Integer id;
     private String firstname;
     private String lastname;
+    private int age;
+    private int credit;
+
 
     //@JsonIgnore utilisé en cas de boucles infinies
     //@ManyToOne
@@ -46,6 +49,22 @@ public class Player {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
     }
 
     public List<Game> getGames() {

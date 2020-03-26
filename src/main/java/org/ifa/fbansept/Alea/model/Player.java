@@ -1,9 +1,9 @@
 package org.ifa.fbansept.Alea.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +15,8 @@ public class Player {
     private Integer id;
     private String firstname;
     private String lastname;
+    private String email;
+    private String password;
     private int age;
     private int credit;
 
@@ -24,7 +26,36 @@ public class Player {
     @ManyToMany
     private List<Game> games;
 
+    @OneToMany(mappedBy = "winner")
+    List<Game> listGameWin = new ArrayList<>();
+
+
+
     public Player() {
+    }
+
+    public List<Game> getListGameWin() {
+        return listGameWin;
+    }
+
+    public void setListGameWin(List<Game> listGameWin) {
+        this.listGameWin = listGameWin;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setId(Integer id) {

@@ -1,4 +1,4 @@
-package org.ifa.fbansept.Alea.config;
+/*package org.ifa.fbansept.Alea.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -21,9 +21,9 @@ public class DatabaseConfig {
         return new HikariDataSource(config);
     }
 }
-
+*/
 // spring-boot-angular-scaffolding/backend/src/main/java/in/keepgrowing/springbootangularscaffolding/config/DevCorsConfiguration.java
-/*
+
 package org.ifa.fbansept.Alea.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -33,11 +33,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @Profile("development")
-public class DevCorsConfiguration implements WebMvcConfigurer {
+class DevCorsConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**").allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
     }
 }
-*/

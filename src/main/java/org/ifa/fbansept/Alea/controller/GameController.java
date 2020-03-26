@@ -19,12 +19,12 @@ public class GameController {
     }
 
     @PostMapping({"/addGame"})
-    Game addUser(@RequestBody Game game) {
+    Game addGame(@RequestBody Game game) {
         System.out.println("ECHO");
         return gameDAO.save(game);
     }
 
-    @GetMapping("gameList")
+    @GetMapping("/listGame")
     List<Game> getGameList () {
         return gameDAO.findAll();
     }

@@ -19,27 +19,38 @@ public class PlayerController {
 
     @GetMapping("/")
     public String homepage(@PathVariable int id){
-        return "HOMEPAGE: Welcome to Alea API !";
+        return "Alea API. Ping success !";
 
     }
 
     @GetMapping("/listPlayer/{id}")
-    public Player singleUtilisateur(@PathVariable int id){
-        System.out.println("Single utilisateur");
+    public Player singlePlayer(@PathVariable int id){
         return playerDAO.findById(id).orElse(null);
-
     }
 
+    @PutMapping("/updatePlayer")
+    public Player updateSinglePlayer(@RequestBody Player playerToUpdate){
+        Player playerInDB = playerDAO.findById( playerToUpdate.getId() ).orElse(null);
+        if ( playerInDB != null){
+            playerInDB.setAge( playerToUpdate.getAge() );
+            playerInDB.setLastname( playerToUpdate.getLastname() );
+            playerInDB.setFirstname( playerToUpdate.getFirstname() );
+
+            return playerDAO.save(playerInDB);
+        } else {
+            return null;
+        }
+    }
+
+
     @GetMapping({"/listPlayer"})
-    public List<Player> listUtilisateur(){
-        System.out.println("Player list");
+    public List<Player> listPlayer(){
         return playerDAO.findAll();
     }
 
 
-    @PostMapping({"/listPlayer"})
-    Player addUser(@RequestBody Player player) {
-        System.out.println("ECHO");
+    @PostMapping({"/addPlayer"})
+    Player addPlayer(@RequestBody Player player) {
         return playerDAO.save(player);
     }
 }

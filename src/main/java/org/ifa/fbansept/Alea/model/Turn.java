@@ -7,22 +7,21 @@ import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "game")
-public class Game {
+@Table(name = "turn")
+public class Turn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    //@OneToMany( mappedBy = "game")
-    //private List<Player> player;
 
     @ManyToMany
-    private List<Turn> turn;
+    private List<Card> cards;
 
     @ManyToOne
-    @JoinColumn
-    private Player winner;
+    @JoinColumn(name = "id_player")
+    private Player player;
 
-    public Game() {
+
+    public Turn() {
     }
 
     public Integer getId() {

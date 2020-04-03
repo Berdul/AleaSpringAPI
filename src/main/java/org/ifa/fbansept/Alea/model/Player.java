@@ -1,10 +1,13 @@
 package org.ifa.fbansept.Alea.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -17,29 +20,24 @@ public class Player {
     private String lastname;
     private String email;
     private String password;
-    private int age;
+    private String birthDate;
     private int credit;
 
+    @OneToMany(mappedBy = "player")
+    private Set<Turn> turns;
 
-    //@JsonIgnore utilisé en cas de boucles infinies
-    //@ManyToOne
-    @ManyToMany
-    private List<Game> games;
+    //List of game that the player participate in
+    @ManyToMany(mappedBy = "players")
+    private Set<Game> games;
 
-    @OneToMany(mappedBy = "winner")
-    List<Game> listGameWin = new ArrayList<>();
+    //Game that the player created, and is still played
+    @OneToOne
+    @JoinColumn(name = "gameOwned_id", referencedColumnName = "id")
+    private Game game;
 
-
-
+    @OneToMany (mappedBy = "winner")
+    private Set<Game> gamesWon;
     public Player() {
-    }
-
-    public List<Game> getListGameWin() {
-        return listGameWin;
-    }
-
-    public void setListGameWin(List<Game> listGameWin) {
-        this.listGameWin = listGameWin;
     }
 
     public String getEmail() {
@@ -82,12 +80,12 @@ public class Player {
         this.lastname = lastname;
     }
 
-    public int getAge() {
-        return age;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public int getCredit() {
@@ -98,11 +96,35 @@ public class Player {
         this.credit = credit;
     }
 
-    public List<Game> getGames() {
+    public Set<Turn> getTurns() {
+        return turns;
+    }
+
+    public void setTurns(Set<Turn> turns) {
+        this.turns = turns;
+    }
+
+    public Set<Game> getGames() {
         return games;
     }
 
-    public void setGames(List<Game> games) {
+    public void setGames(Set<Game> games) {
         this.games = games;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Set<Game> getGamesWon() {
+        return gamesWon;
+    }
+
+    public void setGamesWon(Set<Game> gamesWon) {
+        this.gamesWon = gamesWon;
     }
 }

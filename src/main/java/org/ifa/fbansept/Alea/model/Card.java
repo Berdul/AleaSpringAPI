@@ -1,8 +1,11 @@
 package org.ifa.fbansept.Alea.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -13,6 +16,9 @@ public class Card {
     private Integer id;
     private int value;
     private String color;
+
+    @ManyToMany(mappedBy = "cards")
+    Set<Turn> turns;
 
     public Card() {
     }
@@ -39,5 +45,13 @@ public class Card {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Set<Turn> getTurns() {
+        return turns;
+    }
+
+    public void setTurns(Set<Turn> turns) {
+        this.turns = turns;
     }
 }

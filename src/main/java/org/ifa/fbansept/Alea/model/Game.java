@@ -1,5 +1,6 @@
 package org.ifa.fbansept.Alea.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Game {
 
     //List of players that participate to a game
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinTable(
             name = "Game_Player",
             joinColumns = @JoinColumn(name = "game_id"),

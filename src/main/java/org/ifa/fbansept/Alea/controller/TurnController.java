@@ -26,13 +26,6 @@ public class TurnController {
     @GetMapping({"/listTurn"})
     public List<Turn> listTurn(){
         List<Turn> listTurn = turnDAO.findAll();
-
-        for(Turn turn : listTurn){
-            for(Card card : turn.getCards()){
-                card.setTurns(new HashSet<>());
-            }
-        }
-
         return listTurn;
     }
 

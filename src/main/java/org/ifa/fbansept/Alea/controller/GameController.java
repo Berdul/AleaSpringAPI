@@ -30,11 +30,6 @@ public class GameController {
     List<Game> getGameList () {
         List<Game> listGame = gameDAO.findAll();
 
-        for(Game game : listGame){
-            for(Player player : game.getPlayers()){
-                player.setGames(new HashSet<>());
-            }
-        }
         return listGame;
     }
 

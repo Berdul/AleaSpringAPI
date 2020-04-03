@@ -23,14 +23,6 @@ public class CardController {
     @GetMapping({"/listCard"})
     public List<Card> listTurn(){
         List<Card> listCard = cardDAO.findAll();
-
-        for(Card card : listCard){
-            for(Turn turn: card.getTurns()){
-                turn.setCards(new HashSet<>());
-            }
-        }
-
-
         return listCard;
     }
 

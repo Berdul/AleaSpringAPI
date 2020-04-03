@@ -36,38 +36,9 @@ public class PlayerController {
         return playerDAO.findById(id).orElse(null);
     }
 
-    @PutMapping("/setGameToPlayer")
-    public Player setGameToPlayer(@RequestBody Game gameToAdd){
-
-        Player playerInDB = playerDAO.findById( 1 ).orElse(null);
-        if ( playerInDB != null) {
-
-            Set gameList = playerInDB.getGames();
-            gameList.add(gameToAdd);
-            playerInDB.setGames(gameList);
-
-            for(Game game : playerInDB.getGames()){
-                game.setPlayers(new HashSet<>());
-            }
-
-            return playerDAO.save(playerInDB);
-        } else {
-            return null;
-        }
-
-
-    }
-
-
     @GetMapping({"/listPlayer"})
     public List<Player> listPlayer(){
         List<Player> listPlayer = playerDAO.findAll();
-
-        for(Player player : listPlayer){
-            for(Game game : player.getGames()){
-                game.setPlayers(new HashSet<>());
-            }
-        }
 
         return listPlayer;
     }

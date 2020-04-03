@@ -15,22 +15,27 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private int nbPlayers;
-    private String creationDate;
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
     private boolean isInGame;
 
+    //All turns that have been played in that game
     @OneToMany (mappedBy = "game")
     private Set<Turn> turns;
 
-    @ManyToMany
+    //List of players that participate to a game
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Game_Player",
             joinColumns = @JoinColumn(name = "game_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id"))
     private Set<Player> players;
 
-    @OneToOne(mappedBy = "game")
+    //Creator of the game (owner)
+    @OneToOne(mappedBy = "gameOwned")
     private Player Player;
 
+    //Player that won that game
     @ManyToOne
     @JoinColumn(name="winner_id")
     private Player winner;
@@ -38,11 +43,11 @@ public class Game {
     public Game() {
     }
 
-    public String getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 

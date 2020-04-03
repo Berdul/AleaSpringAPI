@@ -14,6 +14,7 @@ public class Turn {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //Cards that were linked to that turn, player and game
     @ManyToMany
     @JoinTable(
         name = "Card_turn",
@@ -21,10 +22,12 @@ public class Turn {
         inverseJoinColumns = @JoinColumn(name = "card_id"))
     Set<Card> cards;
 
+    //Player that played the turn
     @ManyToOne
     @JoinColumn(name="player_id")
     private Player player;
 
+    //Game where the turn occured
     @ManyToOne
     @JoinColumn(name="game_id")
     private Game game;

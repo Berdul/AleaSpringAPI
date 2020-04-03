@@ -17,6 +17,7 @@ public class Card {
     private int value;
     private String color;
 
+    //All turns that are linked to that card
     @ManyToMany(mappedBy = "cards")
     Set<Turn> turns;
 

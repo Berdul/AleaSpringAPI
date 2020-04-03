@@ -1,12 +1,10 @@
 package org.ifa.fbansept.Alea.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -20,23 +18,27 @@ public class Player {
     private String lastname;
     private String email;
     private String password;
-    private String birthDate;
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
     private int credit;
 
+    //All turns that the player played
     @OneToMany(mappedBy = "player")
     private Set<Turn> turns;
 
     //List of game that the player participate in
-    @ManyToMany(mappedBy = "players")
+    @ManyToMany(mappedBy = "players", cascade = CascadeType.ALL)
     private Set<Game> games;
 
-    //Game that the player created, and is still played
+    //Game that the player created
     @OneToOne
     @JoinColumn(name = "gameOwned_id", referencedColumnName = "id")
-    private Game game;
+    private Game gameOwned;
 
+    //All games that the player won
     @OneToMany (mappedBy = "winner")
     private Set<Game> gamesWon;
+
     public Player() {
     }
 
@@ -80,11 +82,11 @@ public class Player {
         this.lastname = lastname;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -112,12 +114,12 @@ public class Player {
         this.games = games;
     }
 
-    public Game getGame() {
-        return game;
+    public Game getGameOwned() {
+        return gameOwned;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameOwned(Game gameOwned) {
+        this.gameOwned = gameOwned;
     }
 
     public Set<Game> getGamesWon() {

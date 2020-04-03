@@ -36,21 +36,6 @@ public class PlayerController {
         return playerDAO.findById(id).orElse(null);
     }
 
-    @PutMapping("/updatePlayer")
-    public Player updateSinglePlayer(@RequestBody Player playerToUpdate){
-        Player playerInDB = playerDAO.findById( playerToUpdate.getId() ).orElse(null);
-        if ( playerInDB != null){
-            /*
-            playerInDB.setAge( playerToUpdate.getAge() );
-            playerInDB.setLastname( playerToUpdate.getLastname() );
-            playerInDB.setFirstname( playerToUpdate.getFirstname() );
-    */
-            return playerDAO.save(playerInDB);
-        } else {
-            return null;
-        }
-    }
-
     @PutMapping("/setGameToPlayer")
     public Player setGameToPlayer(@RequestBody Game gameToAdd){
 
@@ -90,6 +75,7 @@ public class PlayerController {
 
     @PostMapping({"/addPlayer"})
     Player addPlayer(@RequestBody Player player) {
+        System.out.println(player.getBirthDate());
         return playerDAO.save(player);
     }
 }

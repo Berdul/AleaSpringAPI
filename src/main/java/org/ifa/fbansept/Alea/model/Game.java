@@ -1,8 +1,6 @@
 package org.ifa.fbansept.Alea.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-import org.ifa.fbansept.Alea.JsonView.MyJsonView;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -16,27 +14,18 @@ import java.util.Set;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Integer id;
-
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private int nbPlayers;
-
     @Temporal(TemporalType.DATE)
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Date creationDate;
-
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private boolean isInGame;
 
     //All turns that have been played in that game
     @OneToMany (mappedBy = "game")
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Set<Turn> turns;
 
     //List of players that participate to a game
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonView({MyJsonView.Game.class})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Game_Player",
             joinColumns = @JoinColumn(name = "game_id"),
@@ -44,14 +33,14 @@ public class Game {
     private Set<Player> players;
 
     //Creator of the game (owner)
+    @JsonIgnore
     @OneToOne(mappedBy = "gameOwned")
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
-    private Player Player;
+    private Player owner;
 
     //Player that won that game
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="winner_id")
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Player winner;
 
     public Game() {
@@ -97,27 +86,27 @@ public class Game {
         this.turns = turns;
     }
 
-    public Set<org.ifa.fbansept.Alea.model.Player> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Set<org.ifa.fbansept.Alea.model.Player> players) {
+    public void setPlayers(Set<Player> players) {
         this.players = players;
     }
 
-    public org.ifa.fbansept.Alea.model.Player getPlayer() {
-        return Player;
+    public Player getOwner() {
+        return owner;
     }
 
-    public void setPlayer(org.ifa.fbansept.Alea.model.Player player) {
-        Player = player;
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
-    public org.ifa.fbansept.Alea.model.Player getWinner() {
+    public Player getWinner() {
         return winner;
     }
 
-    public void setWinner(org.ifa.fbansept.Alea.model.Player winner) {
+    public void setWinner(Player winner) {
         this.winner = winner;
     }
 }

@@ -20,6 +20,12 @@ public class GameController {
         this.gameDAO = gameDAO;
     }
 
+    @PostMapping("/addGameToPlayer")
+    Player addPlayerToGame(Player player){
+        player.addGame(gameDAO.findById(1).orElse(null));
+        return player;
+    }
+
     @PostMapping({"/addGame"})
     Game addGame(@RequestBody Game game) {
         System.out.println("ECHO");
@@ -30,6 +36,13 @@ public class GameController {
     List<Game> getGameList () {
         List<Game> listGame = gameDAO.findAll();
 
+        for(Game game : listGame){
+            for(Player player : game.getPlayers()){
+                player.setGames( new HashSet<>() );
+                player.setGameOwned( null);
+                player.setGamesWon( new HashSet<>());
+            }
+        }
         return listGame;
     }
 

@@ -1,8 +1,6 @@
 package org.ifa.fbansept.Alea.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-import org.ifa.fbansept.Alea.JsonView.MyJsonView;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -16,50 +14,38 @@ import java.util.Set;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Integer id;
-
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String firstname;
-
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String lastname;
-
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String email;
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String password;
-
     @Temporal(TemporalType.DATE)
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Date birthDate;
-
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private int credit;
 
     //All turns that the player played
-
     @OneToMany(mappedBy = "player")
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Set<Turn> turns;
 
     //List of game that the player participate in
-    @ManyToMany(mappedBy = "players", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonView({MyJsonView.Player.class})
+    @ManyToMany(mappedBy = "players", cascade = CascadeType.ALL)
     private Set<Game> games;
 
     //Game that the player created
     @OneToOne
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     @JoinColumn(name = "gameOwned_id", referencedColumnName = "id")
     private Game gameOwned;
 
     //All games that the player won
     @OneToMany (mappedBy = "winner")
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Set<Game> gamesWon;
 
     public Player() {
+    }
+
+    public void addGame(Game game){
+        this.games.add(game);
+        game.getPlayers().add(this);
     }
 
     public String getEmail() {

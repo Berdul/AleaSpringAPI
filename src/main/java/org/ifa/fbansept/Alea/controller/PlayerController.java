@@ -41,13 +41,7 @@ public class PlayerController {
 
         Player playerInDB = playerDAO.findById( 1 ).orElse(null);
         if ( playerInDB != null) {
-
-            Set gameList = playerInDB.getGames();
-            gameList.add(gameToAdd);
-            playerInDB.setGames(gameList);
-
-
-
+            playerInDB.getGames().add(gameToAdd);
             return playerDAO.save(playerInDB);
         } else {
             return null;

@@ -28,7 +28,7 @@ public class Player {
     private Set<Turn> turns;
 
     //List of game that the player participate in
-    @ManyToMany(mappedBy = "players", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "players")//, cascade = CascadeType.ALL)
     private Set<Game> games;
 
     //Game that the player created

@@ -25,7 +25,7 @@ public class Game {
     private Set<Turn> turns;
 
     //List of players that participate to a game
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany//(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Game_Player",
             joinColumns = @JoinColumn(name = "game_id"),

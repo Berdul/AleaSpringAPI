@@ -1,5 +1,7 @@
 package org.ifa.fbansept.Alea.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -12,10 +14,12 @@ import java.util.Set;
 public class Turn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({MyJsonView.Card.class, MyJsonView.Turn.class})
     private Integer id;
 
     //Cards that were linked to that turn, player and game
     @ManyToMany
+    @JsonView({MyJsonView.Turn.class})
     @JoinTable(
         name = "Card_turn",
         joinColumns = @JoinColumn(name = "turn_id"),

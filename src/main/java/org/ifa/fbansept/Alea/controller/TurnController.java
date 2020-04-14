@@ -1,6 +1,8 @@
 package org.ifa.fbansept.Alea.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.ifa.fbansept.Alea.DAO.DAOturn;
+import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.ifa.fbansept.Alea.model.Card;
 import org.ifa.fbansept.Alea.model.Game;
 import org.ifa.fbansept.Alea.model.Player;
@@ -24,14 +26,17 @@ public class TurnController {
     }
 
     @GetMapping({"/listTurn"})
+    @JsonView(MyJsonView.Turn.class)
     public List<Turn> listTurn(){
         List<Turn> listTurn = turnDAO.findAll();
 
+        /*
         for(Turn turn : listTurn){
             for(Card card : turn.getCards()){
                 card.setTurns(new HashSet<>());
             }
         }
+         */
 
         return listTurn;
     }

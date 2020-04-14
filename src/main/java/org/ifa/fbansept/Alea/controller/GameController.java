@@ -1,6 +1,8 @@
 package org.ifa.fbansept.Alea.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.ifa.fbansept.Alea.DAO.DAOgame;
+import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.ifa.fbansept.Alea.model.Game;
 import org.ifa.fbansept.Alea.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,7 @@ public class GameController {
     }
 
     @GetMapping("/listGame")
+    @JsonView(MyJsonView.Game.class)
     List<Game> getGameList () {
         List<Game> listGame = gameDAO.findAll();
 

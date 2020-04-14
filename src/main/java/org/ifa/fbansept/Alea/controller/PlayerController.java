@@ -1,7 +1,9 @@
 package org.ifa.fbansept.Alea.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.ifa.fbansept.Alea.DAO.DAOgame;
 import org.ifa.fbansept.Alea.DAO.DAOplayer;
+import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.ifa.fbansept.Alea.model.Game;
 import org.ifa.fbansept.Alea.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +54,11 @@ public class PlayerController {
 
 
     @GetMapping({"/listPlayer"})
+    @JsonView(MyJsonView.Player.class)
     public List<Player> listPlayer(){
         List<Player> listPlayer = playerDAO.findAll();
 
+        /*
         for(Player player : listPlayer){
             player.getGameOwned().setPlayers(new HashSet<>());
             player.getGameOwned().setOwner( null );
@@ -66,6 +70,7 @@ public class PlayerController {
                 gamePlayed.setPlayers(new HashSet<>());
             }
         }
+        */
 
         return listPlayer;
     }

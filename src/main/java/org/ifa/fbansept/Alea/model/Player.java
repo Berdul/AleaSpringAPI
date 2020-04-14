@@ -1,6 +1,8 @@
 package org.ifa.fbansept.Alea.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -14,30 +16,47 @@ import java.util.Set;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Integer id;
+
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String firstname;
+
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String lastname;
+
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String email;
+
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String password;
+
     @Temporal(TemporalType.DATE)
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Date birthDate;
+
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private int credit;
 
-    //All turns that the player played
+    //All turns that the player player
     @OneToMany(mappedBy = "player")
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private Set<Turn> turns;
 
     //List of game that the player participate in
     @ManyToMany(mappedBy = "players")//, cascade = CascadeType.ALL)
+    @JsonView({MyJsonView.Player.class})
     private Set<Game> games;
 
     //Game that the player created
     @OneToOne
     @JoinColumn(name = "gameOwned_id", referencedColumnName = "id")
+    @JsonView({MyJsonView.Player.class})
     private Game gameOwned;
 
     //All games that the player won
     @OneToMany (mappedBy = "winner")
+    @JsonView({MyJsonView.Player.class})
     private Set<Game> gamesWon;
 
     public Player() {

@@ -1,6 +1,7 @@
 package org.ifa.fbansept.Alea.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.hibernate.engine.internal.Cascade;
 import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -18,7 +19,7 @@ public class Turn {
     private Integer id;
 
     //Cards that were linked to that turn, player and game
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JsonView({MyJsonView.Turn.class})
     @JoinTable(
         name = "Card_turn",
@@ -27,16 +28,22 @@ public class Turn {
     Set<Card> cards;
 
     //Player that played the turn
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonView({MyJsonView.Card.class, MyJsonView.Turn.class})
     @JoinColumn(name="player_id")
     private Player player;
 
     //Game where the turn occured
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonView({MyJsonView.Card.class, MyJsonView.Turn.class})
     @JoinColumn(name="game_id")
     private Game game;
 
     public Turn() {
+    }
+
+    public void setSingleCard(Card card){
+        this.cards.add(card);
     }
 
     public Integer getId() {
@@ -70,4 +77,6 @@ public class Turn {
     public void setGame(Game game) {
         this.game = game;
     }
+
+
 }

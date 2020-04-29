@@ -29,6 +29,10 @@ public class Card {
     @JsonView({MyJsonView.Card.class})
     Set<Turn> turns;
 
+    public void setSingleTurn(Turn turn){
+        this.turns.add(turn);
+    }
+
     public Card() {
     }
 

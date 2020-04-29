@@ -4,38 +4,50 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "player")
-public class Player {
+public class Player{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class, MyJsonView.Turn.class})
     private Integer id;
 
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class, MyJsonView.Turn.class})
     private String firstname;
 
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class, MyJsonView.Turn.class})
     private String lastname;
 
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
+    @Column(unique = true)
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class, MyJsonView.Turn.class})
     private String email;
 
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
     private String password;
 
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class, MyJsonView.Turn.class})
+    private boolean active;
+
+    @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
+    @JsonView({MyJsonView.Turn.class})
+    private List<Role> roles;
+
     @Temporal(TemporalType.DATE)
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class, MyJsonView.Turn.class})
     private Date birthDate;
 
-    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class})
+    @JsonView({MyJsonView.Player.class, MyJsonView.Game.class, MyJsonView.Turn.class})
     private int credit;
 
     //All turns that the player player
@@ -51,12 +63,12 @@ public class Player {
     //Game that the player created
     @OneToOne
     @JoinColumn(name = "gameOwned_id", referencedColumnName = "id")
-    @JsonView({MyJsonView.Player.class})
+    @JsonView({MyJsonView.Player.class, MyJsonView.Turn.class})
     private Game gameOwned;
 
     //All games that the player won
     @OneToMany (mappedBy = "winner")
-    @JsonView({MyJsonView.Player.class})
+    @JsonView({MyJsonView.Player.class, MyJsonView.Turn.class})
     private Set<Game> gamesWon;
 
     public Player() {
@@ -67,16 +79,34 @@ public class Player {
         game.getPlayers().add(this);
     }
 
+    //region --Getters and Setters
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -154,4 +184,6 @@ public class Player {
     public void setGamesWon(Set<Game> gamesWon) {
         this.gamesWon = gamesWon;
     }
+
+    //endregion
 }

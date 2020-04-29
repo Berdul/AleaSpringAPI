@@ -5,6 +5,7 @@ import org.ifa.fbansept.Alea.DAO.DAOgame;
 import org.ifa.fbansept.Alea.jsonview.MyJsonView;
 import org.ifa.fbansept.Alea.model.Game;
 import org.ifa.fbansept.Alea.model.Player;
+import org.ifa.fbansept.Alea.model.Turn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin //(origins = "http://localhost:4200")
-
+@RequestMapping("/game")
 public class GameController {
     DAOgame gameDAO;
     @Autowired
@@ -39,14 +40,24 @@ public class GameController {
     List<Game> getGameList () {
         List<Game> listGame = gameDAO.findAll();
 
-        for(Game game : listGame){
-            for(Player player : game.getPlayers()){
-                player.setGames( new HashSet<>() );
-                player.setGameOwned( null);
-                player.setGamesWon( new HashSet<>());
-            }
-        }
         return listGame;
     }
+
+    @GetMapping("/listGame/{id}")
+    @JsonView(MyJsonView.Game.class)
+    Game getGameById(@PathVariable int id){
+        return gameDAO.findById(id).orElse(null);
+    }
+
+    @PostMapping("/addTurnToGame/{gameId}")
+    @JsonView(MyJsonView.Game.class)
+    boolean addTurnToGame(@RequestBody Turn turn, @PathVariable int gameId){
+        Game game = gameDAO.findById(gameId).orElse(null);
+        game.getTurns().add(turn);
+        gameDAO.save(game);
+
+        return true;
+    }
+
 
 }

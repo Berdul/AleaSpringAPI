@@ -27,7 +27,7 @@ public class PlayerController {
         this.playerDAO = playerDAO;
     }
 
-    @GetMapping("/")
+    //@GetMapping("/")
     public String homepage(@PathVariable int id){
         return "Alea API. Ping success !";
 
